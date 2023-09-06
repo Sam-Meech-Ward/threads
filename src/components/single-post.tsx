@@ -12,13 +12,15 @@ export default function SinglePost({ post }: { post: Post }) {
     }
     if (post.media.type === "image") {
       return (
-        <Image
-          src={post.media.url}
-          alt={post.content}
-          width={post.media.width}
-          height={post.media.height}
-          className="rounded-xl"
-        />
+        <Link href={post.media.url}>
+          <Image
+            src={post.media.url}
+            alt={post.content}
+            width={post.media.width}
+            height={post.media.height}
+            className="rounded-xl"
+          />
+        </Link>
       )
     }
   }
