@@ -11,7 +11,7 @@ export default function Profile({ params }: { params: { username: string } }) {
   }
   const posts = fakeDatabase.getPostsForUser(user.username)
   return (
-    <div>
+    <>
       <div className="flex justify-between">
         <div>
           <h2 className="text-3xl font-semibold">
@@ -47,6 +47,6 @@ export default function Profile({ params }: { params: { username: string } }) {
           ))}
         </div>
       </div>
-    </div>
+    </>
   )
 }

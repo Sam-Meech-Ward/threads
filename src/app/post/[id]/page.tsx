@@ -14,7 +14,7 @@ export default function Post({ params }: { params: { id: string } }) {
     <div className="flex flex-col divide-y">
       <SinglePost post={post} />
       {postResponses.map((post) => (
-          <FeedPost key={post.id} post={post} />
+        <FeedPost key={post.id} post={post} />
       ))}
     </div>
   )

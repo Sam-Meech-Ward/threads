@@ -61,7 +61,6 @@ export default function SinglePost({ post }: { post: Post }) {
         <p>{post.likes} likes</p>
         <p>·</p>
         <p>{post.replies} replies</p>
-        {/* <p>{post.retweets} retweets</p> */}
       </div>
     </article>
   )

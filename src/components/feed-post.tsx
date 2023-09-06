@@ -48,8 +48,8 @@ export default function FeedPost({ post }: { post: Post }) {
           </div>
           <Link href={`/post/${post.id}`}>
             <p className="font-light">{post.content}</p>
-            {postMedia()}
           </Link>
+          {postMedia()}
           <PostActions />
         </div>
       </div>
