@@ -1,5 +1,5 @@
 import Image from "next/image"
-import { type User } from "@/fakeDatabase"
+import { type User } from "@/db/schema/users"
 
 export default function CreatePostForm({ user }: { user: User }) {
   return (

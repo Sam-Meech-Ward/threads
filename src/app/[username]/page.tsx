@@ -2,14 +2,31 @@ import Image from "next/image"
 import Link from "next/link"
 import FeedPost from "@/components/feed-post"
 import { notFound } from "next/navigation"
-import * as fakeDatabase from "@/fakeDatabase"
 
-export default function Profile({ params }: { params: { username: string } }) {
-  const user = fakeDatabase.getUser(params.username)
+import { users as usersTable, type User } from "@/db/schema/users"
+import { db, eq, sql } from "@/db"
+import { userPostsQuery } from "@/db/queries/postsFeed"
+import { mightFail } from "might-fail"
+
+export default async function Profile({ params }: { params: { username: string } }) {
+
+  const { result: user, error: userQueryError } = await mightFail(
+    db.select().from(usersTable).where(eq(sql`lower(${usersTable.username})`, sql`lower(${params.username})`)).then(result => result[0])
+  )
+
+  if (userQueryError) {
+    console.error(userQueryError)
+    return <div>error connecting to database</div>
+  }
+
   if (!user) {
     notFound()
   }
-  const posts = fakeDatabase.getPostsForUser(user.username)
+
+  const {result: posts, error: postsQueryError} = await mightFail(
+    userPostsQuery.execute({username: user.username})
+  )
+
   return (
     <>
       <div className="flex justify-between">
@@ -34,7 +51,7 @@ export default function Profile({ params }: { params: { username: string } }) {
       </div>
 
       <div className="mt-10">
-        <div className="text-neutral-600 dark:text-neutral-400">{user.followers} followers</div>
+        {/* <div className="text-neutral-600 dark:text-neutral-400">{user.followers} followers</div> */}
       </div>
 
       <div className="mt-7">
@@ -42,7 +59,7 @@ export default function Profile({ params }: { params: { username: string } }) {
           <div className="mb-2">Posts</div>
         </div>
         <div className="flex flex-col divide-y">
-          {posts.map((post) => (
+          {posts?.map((post) => (
             <FeedPost key={post.id} post={post} />
           ))}
         </div>

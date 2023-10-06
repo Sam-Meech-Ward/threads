@@ -1,6 +1,6 @@
 import Image from "next/image"
 import Link from "next/link"
-import { type Post } from "@/fakeDatabase"
+import { type Post } from "@/db/queries/singlePost"
 import PostActions from "./post-actions"
 
 import timeAgoShort from "@/utils/timeAgoShort"
@@ -45,7 +45,7 @@ export default function SinglePost({ post }: { post: Post }) {
               <div>{post.user.username}</div>
             </Link>
             <p className="dark:text-neutral-400 text-neutral-600">
-              {timeAgoShort(new Date(post.date))}
+              {timeAgoShort(new Date(post.createdAt))}
             </p>
           </div>
         </div>
@@ -58,9 +58,9 @@ export default function SinglePost({ post }: { post: Post }) {
       </div>
 
       <div className="flex gap-2 dark:text-neutral-400 text-neutral-600">
-        <p>{post.likes} likes</p>
+        {/* <p>{post.likes} likes</p> */}
         <p>·</p>
-        <p>{post.replies} replies</p>
+        {/* <p>{post.replies} replies</p> */}
       </div>
     </article>
   )

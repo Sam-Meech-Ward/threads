@@ -1,24 +1,15 @@
-import { sql } from "drizzle-orm";
-import { sqliteTable, text, integer, uniqueIndex } from 'drizzle-orm/sqlite-core';
- 
-export const posts = sqliteTable('posts', {
-    id: integer('id').primaryKey(),
-    content: text('name'),
-    timestamp: text("timestamp").default(sql`CURRENT_TIMESTAMP`).notNull(),
+import { serial, text, timestamp, integer, pgTable, AnyPgColumn } from "drizzle-orm/pg-core"
+import { users } from "./users"
+import { media } from "./media"
 
-    // denormalized data
-    totalLikes: integer('total_likes').default(0).notNull(),
-    totalReplies: integer('total_replies').default(0).notNull(),
-    totalComments: integer('total_replies').default(0).notNull(),
-  }
-);
- 
-// export const cities = sqliteTable('cities', {
-//   id: integer('id').primaryKey(),
-//   name: text('name'),
-//   countryId: integer('country_id').references(() => posts.id),
-  
-// },
-// (cities) => ({
-//   nameIdx: uniqueIndex('nameIdx').on(cities.name),
-// }))
+export const posts = pgTable("posts", {
+  id: serial("id").primaryKey(),
+  userId: text("user_id").notNull().references(() => users.id),
+  mediaId: integer("media_id").references(() => media.id),
+  replyId: integer("reply_id").references((): AnyPgColumn => posts.id), // Explicitly set the return type because of TypeScript limitations
+  content: text("content").notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+})
+
+export type Post = typeof posts.$inferSelect // return type when queried
+export type NewPost = typeof posts.$inferInsert // insert type

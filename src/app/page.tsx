@@ -1,10 +1,14 @@
-import * as fakeDatabase from "@/fakeDatabase"
 import FeedPost from "@/components/feed-post"
-export default function Home() {
-  const fakePosts = fakeDatabase.getPosts()
+
+import { postsFeedQuery } from "@/db/queries/postsFeed"
+
+export default async function Home() {
+
+  const posts = await postsFeedQuery.execute()
+  console.log(posts)
   return (
     <div className="flex flex-col divide-y" style={{ height: 3000 }}>
-      {fakePosts.map((post) => (
+      {posts.map((post) => (
         <FeedPost key={post.id} post={post} />
       ))}
     </div>
