@@ -1,4 +1,4 @@
-import CreatePostForm from "@/components/create-post-form"
+import CreatePostForm from "@/app/create/create-post-form"
 import { notFound } from "next/navigation"
 
 import { db, eq, sql } from "@/db"

@@ -1,9 +1,50 @@
+"use client"
+
 import Image from "next/image"
 import { type User } from "@/db/schema/users"
 
+import { twMerge } from "tailwind-merge"
+
+import CreatePostButton from "./create-post-button"
+
+import { createPost } from "./actions" 
+
+
+import { useState } from "react"
+
+import { useAction } from "next-safe-action/hook"
+
+const initialState = {
+  message: null,
+}
+
 export default function CreatePostForm({ user }: { user: User }) {
+  const { execute, result, status } = useAction(createPost)
+
+  const [content, setContent] = useState("")
+  const [file, setFile] = useState<File | null>(null)
+
+  const buttonDisabled = content.length <= 3 || status === "executing"
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    const result = await execute({ content })
+    console.log(result)
+  }
+
   return (
-    <form className="border border-neutral-500 rounded-lg px-6 py-4">
+    <form className="border border-neutral-500 rounded-lg px-6 py-4" onSubmit={handleSubmit}>
+      {status === "hasErrored" ? (
+        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+          <strong className="font-bold">Error!</strong>
+          {result.serverError && <p>Something went wrong.</p>}
+          {result.validationError?.content && (
+            <p className="text-red-500 text-sm italic p-1">
+              Descriptions must be at least 3 characters
+            </p>
+          )}
+        </div>
+      ) : null}
       <div className="flex gap-4 items-start pb-4">
         <div className="rounded-full h-12 w-12 overflow-hidden relative">
           <Image
@@ -25,6 +66,8 @@ export default function CreatePostForm({ user }: { user: User }) {
               type="text"
               placeholder="Post a thing..."
               required
+              value={content}
+              onChange={(e) => setContent(e.target.value)}
             />
           </label>
           <label className="flex">
@@ -46,15 +89,24 @@ export default function CreatePostForm({ user }: { user: User }) {
               name="media"
               type="file"
               accept="image/jpeg,image/png,video/mp4,video/quicktime"
-              multiple
+              onChange={(e) => setFile(e.target.files?.[0] ?? null)}
             />
           </label>
         </div>
       </div>
 
       <div className="flex justify-between items-center mt-5">
-        <div className="text-neutral-500">Anyone can reply</div>
-        <button type="submit" className="border rounded-xl px-4 py-2">
+        {/* <div className="text-neutral-500">Anyone can reply</div> */}
+        <div className="text-neutral-500">Characters: {content.length}</div>
+        <button
+          type="submit"
+          className={twMerge(
+            "border rounded-xl px-4 py-2 disabled",
+            buttonDisabled && "opacity-50 cursor-not-allowed"
+          )}
+          disabled={buttonDisabled}
+          aria-disabled={buttonDisabled}
+        >
           Post
         </button>
       </div>

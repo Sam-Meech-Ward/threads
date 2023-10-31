@@ -5,7 +5,7 @@ import { postsFeedQuery } from "@/db/queries/postsFeed"
 export default async function Home() {
 
   const posts = await postsFeedQuery.execute()
-  console.log(posts)
+  
   return (
     <div className="flex flex-col divide-y" style={{ height: 3000 }}>
       {posts.map((post) => (
