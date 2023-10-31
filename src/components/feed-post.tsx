@@ -37,8 +37,8 @@ export default function FeedPost({ post }: { post: Post }) {
             />
           </div>
         </Link>
-        <div className="flex flex-col gap-2">
-          <div className="flex justify-between">
+        <div className="flex flex-col gap-2 w-full">
+          <div className="flex justify-between w-full">
             <Link href={`/${post.user.username}`}>
               <div>{post.user.username}</div>
             </Link>
