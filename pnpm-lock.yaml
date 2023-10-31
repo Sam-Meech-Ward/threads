@@ -966,7 +966,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001558
-      electron-to-chromium: 1.4.570
+      electron-to-chromium: 1.4.571
       node-releases: 2.0.13
       update-browserslist-db: 1.0.13(browserslist@4.22.1)
     dev: false
@@ -1326,8 +1326,8 @@ packages:
       drizzle-orm: 0.28.6(@libsql/client@0.3.6)(@neondatabase/serverless@0.6.0)(pg@8.11.3)(postgres@3.4.2)
     dev: false
 
-  /electron-to-chromium@1.4.570:
-    resolution: {integrity: sha512-5GxH0PLSIfXKOUMMHMCT4M0olwj1WwAxsQHzVW5Vh3kbsvGw8b4k7LHQmTLC2aRhsgFzrF57XJomca4XLc/WHA==}
+  /electron-to-chromium@1.4.571:
+    resolution: {integrity: sha512-Sc+VtKwKCDj3f/kLBjdyjMpNzoZsU6WuL/wFb6EH8USmHEcebxRXcRrVpOpayxd52tuey4RUDpUsw5OS5LhJqg==}
     dev: false
 
   /emoji-regex@9.2.2:
