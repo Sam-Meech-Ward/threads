@@ -2,11 +2,10 @@ import Link from "next/link"
 
 import { twMerge } from "tailwind-merge"
 
-import { cookies } from "next/headers"
+import { auth } from "@/auth"
 
-export default function NavBar({ className }: { className?: string }) {
-  const username = cookies().get("username")?.value
-  const userId = cookies().get("username")?.value
+export default async function NavBar({ className }: { className?: string }) {
+  const session = await auth()
 
   return (
     <nav className={twMerge("flex h-full justify-between items-center", className)}>
@@ -32,7 +31,7 @@ export default function NavBar({ className }: { className?: string }) {
         </svg>
       </Link>
       <Link
-        href="/create"
+        href={session?.user ? "/create" : "/api/auth/signin?callbackUrl=/create"}
         className="hover:bg-neutral-100 dark:hover:bg-neutral-900 flex justify-center items-center h-14 w-20 rounded-md transition-all fill-none stroke-neutral-600"
       >
         <svg className="w-7 h-7 stroke-2" aria-label="Create" viewBox="0 0 26 26" role="img">
@@ -51,7 +50,8 @@ export default function NavBar({ className }: { className?: string }) {
         </svg>
       </Link>
       <Link
-        href={username ? "/" + username : "/login"}
+        href={session?.user ? "/me" : "/api/auth/signin?callbackUrl=/me"}
+        // href={session?.user ? "/" + session?.user.name : "/login"}
         className="hover:bg-neutral-100 dark:hover:bg-neutral-900 flex justify-center items-center h-14 w-20 rounded-md transition-all fill-none stroke-neutral-600"
       >
         <svg className="w-7 h-7 stroke-2" aria-label="Profile" viewBox="0 0 26 26" role="img">

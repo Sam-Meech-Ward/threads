@@ -26,12 +26,12 @@ export default function FeedPost({ post }: { post: Post }) {
   return (
     <article className="flex flex-col gap-4 py-4 relative">
       <div className="flex gap-4 items-start">
-        <Link href={`/${post.user.username}`}>
+        <Link href={`/${post.user.id}`}>
           <div className="rounded-full h-10 w-10 overflow-hidden relative">
             <Image
               className="object-cover"
-              src={post.user.avatar}
-              alt={post.user.username}
+              src={post.user.image || "https://www.gravatar.com/avatar/?d=mp"}
+              alt={post.user.name || "user image"}
               priority={true}
               fill={true}
             />
@@ -39,8 +39,8 @@ export default function FeedPost({ post }: { post: Post }) {
         </Link>
         <div className="flex flex-col gap-2 w-full">
           <div className="flex justify-between w-full">
-            <Link href={`/${post.user.username}`}>
-              <div>{post.user.username}</div>
+            <Link href={`/${post.user.id}`}>
+              <div>{post.user.name}</div>
             </Link>
             <p className="dark:text-neutral-400 text-neutral-600">
               {timeAgoShort(new Date(post.createdAt))}

@@ -1,19 +1,19 @@
 import FeedPost from "@/components/feed-post"
 import { notFound } from "next/navigation"
 
-import { users as usersTable, type User } from "@/db/schema/users"
+import { users as usersTable } from "@/db/schema/users"
 import { db, eq, sql } from "@/db"
 import { userPostsQuery } from "@/db/queries/postsFeed"
 import { mightFail } from "might-fail"
 
 import Profile from "./profile"
 
-export default async function ProfilePage({ params }: { params: { username: string } }) {
+export default async function ProfilePage({ params }: { params: { userId: string } }) {
   const { result: user, error: userQueryError } = await mightFail(
     db
       .select()
       .from(usersTable)
-      .where(eq(sql`lower(${usersTable.username})`, sql`lower(${params.username})`))
+      .where(eq(usersTable.id, params.userId))
       .then((result) => result[0])
   )
 
@@ -27,7 +27,7 @@ export default async function ProfilePage({ params }: { params: { username: stri
   }
 
   const { result: posts, error: postsQueryError } = await mightFail(
-    userPostsQuery.execute({ username: user.username })
+    userPostsQuery.execute({ userId: user.id })
   )
 
   return (

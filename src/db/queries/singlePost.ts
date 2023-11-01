@@ -11,8 +11,8 @@ export const singlePostQuery = db
   createdAt: postsTable.createdAt,
   user: {
     id: usersTable.id,
-    username: usersTable.username,
-    avatar: usersTable.avatar,
+    name: usersTable.name,
+    image: usersTable.image,
   },
   media: {
     id: mediaTable.id,

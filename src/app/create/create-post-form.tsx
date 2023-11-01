@@ -1,24 +1,16 @@
 "use client"
 
 import Image from "next/image"
-import { type User } from "@/db/schema/users"
 
 import { twMerge } from "tailwind-merge"
 
-import CreatePostButton from "./create-post-button"
-
-import { createPost } from "./actions" 
-
+import { createPost } from "./actions"
 
 import { useState } from "react"
 
 import { useAction } from "next-safe-action/hook"
 
-const initialState = {
-  message: null,
-}
-
-export default function CreatePostForm({ user }: { user: User }) {
+export default function CreatePostForm({ user }: { user: { name: string; image: string } }) {
   const { execute, result, status } = useAction(createPost)
 
   const [content, setContent] = useState("")
@@ -49,15 +41,15 @@ export default function CreatePostForm({ user }: { user: User }) {
         <div className="rounded-full h-12 w-12 overflow-hidden relative">
           <Image
             className="object-cover"
-            src={user.avatar}
-            alt={user.username}
+            src={user.image}
+            alt={user.name}
             priority={true}
             fill={true}
           />
         </div>
 
         <div className="flex flex-col gap-2">
-          <div>{user.username}</div>
+          <div>{user.name}</div>
 
           <label className="w-full">
             <input

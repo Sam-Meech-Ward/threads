@@ -11,6 +11,8 @@
     "db:push": "drizzle-kit push:pg"
   },
   "dependencies": {
+    "@auth/core": "^0.18.0",
+    "@auth/drizzle-adapter": "^0.3.5",
     "@libsql/client": "^0.3.6",
     "@neondatabase/serverless": "^0.6.0",
     "@types/node": "20.6.2",
@@ -24,6 +26,7 @@
     "eslint-config-next": "13.4.19",
     "might-fail": "^0.2.0",
     "next": "^14.0.1",
+    "next-auth": "5.0.0-beta.3",
     "next-safe-action": "^5.0.2",
     "pg": "^8.11.3",
     "postcss": "8.4.29",

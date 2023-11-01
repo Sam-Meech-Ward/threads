@@ -1,7 +1,7 @@
 import { db, eq, sql, desc } from "@/db"
 
 import { posts as postsTable } from "@/db/schema/posts"
-import { users as usersTable } from "@/db/schema/users"
+import { users, users as usersTable } from "@/db/schema/users"
 import { media as mediaTable } from "@/db/schema/media"
 
 const baseQuery = db
@@ -11,8 +11,8 @@ const baseQuery = db
     createdAt: postsTable.createdAt,
     user: {
       id: usersTable.id,
-      username: usersTable.username,
-      avatar: usersTable.avatar,
+      name: usersTable.name,
+      image: usersTable.image,
     },
     media: {
       id: mediaTable.id,
@@ -36,7 +36,7 @@ export const postResponsesQuery = baseQuery
   .prepare("posts_for_post_response_feed")
 
 export const userPostsQuery = baseQuery
-  .where(eq(sql`lower(${usersTable.username})`, sql`lower(${sql.placeholder("username")})`))
+  .where(eq(usersTable.id, sql.placeholder("userId")))
   .orderBy(desc(postsTable.createdAt))
   .prepare("posts_for_user_feed")
 
